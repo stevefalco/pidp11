@@ -44,7 +44,7 @@ while true; do
         [Yy]* )
             # make sure that the directory does not have root ownership
             # (in case the user did a simple git clone instead of 
-            #  sudo -u pi git clone...)
+            #  sudo -u ${USER} git clone...)
             myusername=$(whoami)
             mygroup=$(id -g -n)
             sudo chown -R $myusername:$mygroup /opt/pidp11
@@ -152,6 +152,8 @@ while true; do
             sudo rm $pidpath/src/11_pidp_server/pidp11/bin-rpi/pidp1170_blinkenlightd
             sudo $pidpath/src/makeclient.sh
             sudo $pidpath/src/makeserver.sh
+	    # to run a RT thread:
+            sudo setcap cap_sys_nice+ep /opt/pidp11/src/11_pidp_server/pidp11/bin-rpi/pidp1170_blinkenlightd
             echo
             echo recompiled PiDP-11 binaries from source.
             break
@@ -175,7 +177,7 @@ while true; do
         [Yy]* ) 
             # setup 'pdp.sh' (script to return to screen with pidp11) 
             # in home directory if it is not there yet
-            test ! -L /home/pi/pdp.sh && ln -s /opt/pidp11/etc/pdp.sh /home/pi/pdp.sh
+            test ! -L /home/${USER}/pdp.sh && ln -s /opt/pidp11/etc/pdp.sh /home/${USER}/pdp.sh
             # easier to use - just put a pdp11 command into /usr/local
             sudo ln -f -s /opt/pidp11/etc/pdp.sh /usr/local/bin/pdp11
             # the pdp11control script into /usr/local:
@@ -212,16 +214,16 @@ while true; do
                         break
 			;;
                       [NnHh]* ) 
-                        # add pdp11 to the end of pi's .profile to let a new login 
+                        # add pdp11 to the end of ${USER}'s .profile to let a new login
                         # grab the terminal automatically
                         #   first, make backup .foo copy...
-                        test ! -f /home/pi/profile.foo && cp -p /home/pi/.profile /home/pi/profile.foo
+                        test ! -f /home/${USER}/profile.foo && cp -p /home/${USER}/.profile /home/${USER}/profile.foo
                         #   add the line to .profile if not there yet
-                        if grep -xq "pdp11 # autostart" /home/pi/.profile
+                        if grep -xq "pdp11 # autostart" /home/${USER}/.profile
                         then
                             echo .profile already contains pdp11 for autostart, OK.
                         else
-                            sed -e "\$apdp11 # autostart" -i /home/pi/.profile
+                            sed -e "\$apdp11 # autostart" -i /home/${USER}/.profile
                         fi
 			echo
 			echo autostart via .profile for headless use without GUI
@@ -271,14 +273,14 @@ while true; do
     read -p "Add VT-52 desktop icon and desktop settings? " prxn
     case $prxn in
         [Yy]* ) 
-            cp /opt/pidp11/install/vt52.desktop /home/pi/Desktop/
-            cp /opt/pidp11/install/vt52fullscreen.desktop /home/pi/Desktop/
-            cp /opt/pidp11/install/tty.desktop /home/pi/Desktop/
-            cp /opt/pidp11/install/tek.desktop /home/pi/Desktop/
-            cp /opt/pidp11/install/pdp11control.desktop /home/pi/Desktop/
+            cp /opt/pidp11/install/vt52.desktop /home/${USER}/Desktop/
+            cp /opt/pidp11/install/vt52fullscreen.desktop /home/${USER}/Desktop/
+            cp /opt/pidp11/install/tty.desktop /home/${USER}/Desktop/
+            cp /opt/pidp11/install/tek.desktop /home/${USER}/Desktop/
+            cp /opt/pidp11/install/pdp11control.desktop /home/${USER}/Desktop/
 
             #make pcmanf run on double click, change its config file
-            config_file="/home/pi/.config/libfm/libfm.conf"
+            config_file="/home/${USER}/.config/libfm/libfm.conf"
             # Create the directory if it doesn't exist
             mkdir -p "$(dirname "$config_file")"
             # Add or update the quick_exec setting
