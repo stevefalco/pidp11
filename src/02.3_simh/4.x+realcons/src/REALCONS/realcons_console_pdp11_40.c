@@ -568,8 +568,7 @@ t_stat realcons_console_pdp11_40_service(realcons_console_logic_pdp11_40_t *_thi
 			if (_this->realcons->debug)
 				printf("LOADADR %o\n", _this->console_address_register);
 			// flash with DATA LEDs
-			_this->realcons->timer_running_msec[TIMER_DATA_FLASH] =
-				_this->realcons->service_cur_time_msec + TIME_DATA_FLASH_MS;
+			REALCONS_SET_TIMER_MSEC(_this->realcons->timer_running_msec[TIMER_DATA_FLASH], _this->realcons->service_cur_time_msec, TIME_DATA_FLASH_MS);
 		}
 
 		if (action_switch == _this->switch_EXAM) {
@@ -591,8 +590,7 @@ t_stat realcons_console_pdp11_40_service(realcons_console_logic_pdp11_40_t *_thi
 				realcons_console_pdp11_40_addr_panel2simh(_this->console_address_register),
 				dataval);
 			// flash with DATA LEDs
-			_this->realcons->timer_running_msec[TIMER_DATA_FLASH] =
-				_this->realcons->service_cur_time_msec + TIME_DATA_FLASH_MS;
+			REALCONS_SET_TIMER_MSEC(_this->realcons->timer_running_msec[TIMER_DATA_FLASH], _this->realcons->service_cur_time_msec, TIME_DATA_FLASH_MS);
 		}
 
 		/* function of CONT, START mixed with HALT:
@@ -621,8 +619,7 @@ t_stat realcons_console_pdp11_40_service(realcons_console_logic_pdp11_40_t *_thi
 				sprintf(_this->realcons->simh_cmd_buffer, "run %o\n",
 					_this->console_address_register);
 				// flash with DATA LEDs
-				_this->realcons->timer_running_msec[TIMER_DATA_FLASH] =
-					_this->realcons->service_cur_time_msec + TIME_DATA_FLASH_MS;
+				REALCONS_SET_TIMER_MSEC(_this->realcons->timer_running_msec[TIMER_DATA_FLASH], _this->realcons->service_cur_time_msec, TIME_DATA_FLASH_MS);
 			}
 		}
 		else if (action_switch == _this->switch_CONT && _this->switch_HALT->value) {
@@ -721,8 +718,7 @@ int realcons_console_pdp11_40_test(realcons_console_logic_pdp11_40_t *_this, int
 {
 	// send end time for test: 1 second = curtime + 1000
 	// lamp test is set in service()
-	_this->realcons->timer_running_msec[TIMER_TEST] = _this->realcons->service_cur_time_msec
-		+ TIME_TEST_MS;
+	REALCONS_SET_TIMER_MSEC(_this->realcons->timer_running_msec[TIMER_TEST], _this->realcons->service_cur_time_msec, TIME_TEST_MS);
 
 	realcons_printf(_this->realcons, stdout, "Verify lamp test!\n");
 	realcons_printf(_this->realcons, stdout, "Switch SR        = %llo\n", _this->switch_SR->value);

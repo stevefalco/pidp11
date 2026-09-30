@@ -1172,8 +1172,7 @@ int realcons_console_pdp11_70_test(realcons_console_logic_pdp11_70_t *_this, int
 {
     // send end time for test: 1 second = curtime + 1000
     // lamp test is set in service()
-    _this->realcons->timer_running_msec[TIMER_TEST] = _this->realcons->service_cur_time_msec
-            + TIME_TEST_MS;
+    REALCONS_SET_TIMER_MSEC(_this->realcons->timer_running_msec[TIMER_TEST], _this->realcons->service_cur_time_msec, TIME_TEST_MS);
 
     realcons_printf(_this->realcons, stdout, "Verify lamp test!\n");
     realcons_printf(_this->realcons, stdout, "Switch SR          = %llo\n",

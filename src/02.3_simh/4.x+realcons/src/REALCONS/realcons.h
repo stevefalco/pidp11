@@ -61,6 +61,12 @@ typedef uint32 realcons_machine_word_t;
 #define REALCONS_TIMER_COUNT 4 // general purpose timers for use by console_controller
 // states of the simulated machine
 
+#define REALCONS_SET_TIMER_MSEC(target, cur, delay) do { \
+    (target) = (cur) + (delay);                         \
+    if ((target) == 0)                                  \
+        (target) = 1;                                   \
+} while (0)
+
 /*
  * description of logic procedures of an implemented console panel
  */

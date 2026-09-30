@@ -737,8 +737,7 @@ int realcons_console_pdp10_test(realcons_console_logic_pdp10_t *_this, int arg)
 
 	// send end time for test: 1 second = curtime + 1000
 	// lamp test is set in service()
-	_this->realcons->timer_running_msec[TIMER_TEST] = _this->realcons->service_cur_time_msec
-		+ TIME_TEST_MS;
+	REALCONS_SET_TIMER_MSEC(_this->realcons->timer_running_msec[TIMER_TEST], _this->realcons->service_cur_time_msec, TIME_TEST_MS);
 
 	// lamps are set ON in _service() by monitoring the timer
 	realcons_printf(_this->realcons, stdout, "Verify lamp test!\n");
