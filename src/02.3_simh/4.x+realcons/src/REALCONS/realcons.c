@@ -441,14 +441,18 @@ void realcons_service(realcons_t *_this, int highspeed)
 	_this->service_highspeed_prescaler = REALCONS_SERVICE_HIGHSPEED_PRESCALE; // reload
 
 	// sample current time. can be used in console panel subclasses->service()
+	//
+	// The 32-bit millisecond timer will wrap approximately every 49.7
+	// days.  As long as the intervals we are timing are less than half
+	// of that, the comparisons below should be ok.
 	_this->service_cur_time_msec = sim_os_msec(); // get current time in millisec
 	// update general purpose timers.
 	for (i = 0; i < REALCONS_TIMER_COUNT; i++)
 		if (_this->timer_running_msec[i]
-			&& _this->timer_running_msec[i] < _this->service_cur_time_msec)
+			&& (int32_t) (_this->timer_running_msec[i] - _this->service_cur_time_msec) < 0)
 			_this->timer_running_msec[i] = 0; // timer expired
 
-	if (_this->service_next_time_msec >= _this->service_cur_time_msec)
+	if ((int32_t) (_this->service_cur_time_msec - _this->service_next_time_msec) < 0)
 		return;
 	///// Time for next service operation /////
 

@@ -137,7 +137,7 @@ typedef struct
 
     unsigned 	console_operand_address; // like address buffer on PDP-11's
 
-    t_uint64 last_repeat_rate_event_msec; // future timestamp for next trigger of REPATEed actions
+    uint32_t last_repeat_rate_event_msec; // future timestamp for next trigger of REPATEed actions
 
 } realcons_console_logic_pdp15_t;
 

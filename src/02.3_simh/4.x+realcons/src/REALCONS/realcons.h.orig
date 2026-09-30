@@ -219,12 +219,12 @@ typedef struct realcons_struct
 	unsigned service_interval_msec; // limit for service() frequency.
 	t_uint64 service_cycle_count; // inc by one for every seervice() call.
 	int service_highspeed_prescaler; // check not every time for next service time
-	uint32_t service_next_time_msec; // next execution time for service in ms
+	t_uint64 service_next_time_msec; // next execution time for service in ms
 
-	uint32_t service_cur_time_msec; // current timestamp of service call
+	t_uint64 service_cur_time_msec; // current timestamp of service call
 
 	// array of general purpose timers for use by console_controller. 0 = expired
-	uint32_t timer_running_msec[REALCONS_TIMER_COUNT];
+	t_uint64 timer_running_msec[REALCONS_TIMER_COUNT];
 
 } realcons_t;
 
