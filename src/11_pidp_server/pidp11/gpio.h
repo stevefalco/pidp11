@@ -36,6 +36,7 @@
 
 #include <unistd.h>
 #include <fcntl.h> // extra
+#include <pthread.h>
 
 
 //#define BCM2708_PERI_BASE       0x3f000000
