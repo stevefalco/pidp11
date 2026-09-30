@@ -147,6 +147,13 @@ while true; do
             break
 	    ;;
         [Cc]* ) 
+            echo
+            echo Building binaries from /opt/pidp11/src
+	    # Just copy these binaries - no need to build them.
+            sudo cp $pidpath/bin/$subdir/vt52 $pidpath/bin/
+            sudo cp $pidpath/bin/$subdir/sty $pidpath/bin/
+            sudo cp $pidpath/bin/$subdir/tek4010 $pidpath/bin/
+	    # But build the simulator client and server from source.
             sudo rm $pidpath/src/02.3_simh/4.x+realcons/bin-rpi/pdp11_realcons
             sudo rm $pidpath/src/11_pidp_server/scanswitch/scansw
             sudo rm $pidpath/src/11_pidp_server/pidp11/bin-rpi/pidp1170_blinkenlightd
