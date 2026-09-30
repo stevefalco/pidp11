@@ -148,7 +148,7 @@ void realcons_init(realcons_t *_this)
 
 	_this->service_interval_msec = REALCONS_DEFAULT_SERVICE_INTERVAL_MSEC;
 	_this->service_highspeed_prescaler = 0;
-	_this->service_next_time_msec = 0;
+	_this->service_next_time_msec = sim_os_msec();
 
 	/* Intializes random number generator */
 	srand((unsigned)time(NULL));
@@ -203,7 +203,7 @@ t_stat realcons_connect(realcons_t *_this, char *consolelogic_name, char *server
 
 	_this->force_output_update = 0;
 	_this->service_highspeed_prescaler = 0;
-	_this->service_next_time_msec = 0;
+	_this->service_next_time_msec = sim_os_msec();
 	_this->service_cycle_count = 0;
 	_this->lamp_test = 0;
 	for (i = 0; i < REALCONS_TIMER_COUNT; i++)
