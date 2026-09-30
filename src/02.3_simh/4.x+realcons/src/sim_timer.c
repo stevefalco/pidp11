@@ -569,12 +569,18 @@ const t_bool rtc_avail = TRUE;
 
 uint32 sim_os_msec (void)
 {
-struct timeval cur;
-struct timezone foo;
+// CLOCK_MONOTONIC instead of gettimeofday()/CLOCK_REALTIME: this value feeds
+// REALCONS's service scheduling (service_next_time_msec/service_cur_time_msec),
+// which only tolerates smooth wraparound, not a wall-clock step. On a Pi with
+// no RTC, the first NTP sync after boot steps CLOCK_REALTIME discontinuously,
+// which can permanently stall the front-panel LED service loop. CLOCK_MONOTONIC
+// is unaffected by wall-clock adjustments and starts near 0 at boot, avoiding
+// that failure mode entirely.
+struct timespec cur;
 uint32 msec;
 
-gettimeofday (&cur, &foo);
-msec = (((uint32) cur.tv_sec) * 1000) + (((uint32) cur.tv_usec) / 1000);
+clock_gettime (CLOCK_MONOTONIC, &cur);
+msec = (((uint32) cur.tv_sec) * 1000) + (((uint32) cur.tv_nsec) / 1000000);
 return msec;
 }
 
