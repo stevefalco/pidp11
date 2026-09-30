@@ -294,7 +294,8 @@ void check_rotary_encoders(int switchscan)
 			lastCode[i]=code[i];
 			switchscan = switchscan + (1<<((i*2)+8));
 //			printf("%d end of UP %d %d\n",i, switchscan, (1<<((i*2)+8)));
-			knobValue[i]++;	//bugfix 20181225
+			//knobValue[i]++;	//bugfix 20181225
+			knobValue[i]--;	// reverse direction
 
 		}
 		else if ((code[i]==3) && (lastCode[i]==2))
@@ -302,7 +303,8 @@ void check_rotary_encoders(int switchscan)
 			lastCode[i]=code[i];
 			switchscan = switchscan + (2<<((i*2)+8));
 //			printf("%d end of DOWN %d %d\n",i,switchscan, (2<<((i*2)+8)));
-			knobValue[i]--;	// bugfix 20181225
+			//knobValue[i]--;	// bugfix 20181225
+			knobValue[i]++;	// reverse direction
 		}
 	}
 
