@@ -521,7 +521,7 @@ void realcons_ms_sleep(realcons_t *_this, int ms)
 	uint32 end_time_msec;
 
 	end_time_msec = sim_os_msec() + ms; // get current time in millisec
-	while (end_time_msec > sim_os_msec()) {
+	while ((int32_t)(end_time_msec - sim_os_msec()) > 0) {
 		// busy waiting
 		realcons_service(_this, 0);
 	}
